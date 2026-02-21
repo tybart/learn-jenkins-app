@@ -39,7 +39,7 @@ pipeline {
                         always {
                             junit 'jest-results/junit.xml'
                         } 
-    }
+                    }
                 }
                 stage('E2E tests') {
                     agent {
@@ -61,8 +61,22 @@ pipeline {
                         always {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                         } 
-    }
+                     }
                 }
+            }
+        }
+        stage('Deploy') {
+            agent {
+                docker {
+                    image 'node:lts-alpine3.22'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install -g netlify-cli
+                    netlify --version
+                '''
             }
         }
     }
