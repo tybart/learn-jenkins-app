@@ -16,6 +16,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    chown -R $(id -u):$(id -g) .
                     ls -al
                     node --version
                     npm --version
