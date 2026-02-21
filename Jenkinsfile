@@ -6,7 +6,16 @@ pipeline {
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Build') {
             agent {
                 docker {
@@ -16,7 +25,6 @@ pipeline {
             }
             steps {
                 sh '''
-                    chown -R $(id -u):$(id -g) .
                     ls -al
                     node --version
                     npm --version
