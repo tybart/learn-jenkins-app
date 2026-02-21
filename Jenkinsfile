@@ -20,35 +20,39 @@ pipeline {
                 '''
             }
         }
-        stage('Test') {
-            agent {
-                docker {
-                    image 'node:lts-alpine3.22'
-                    reuseNode true
+        stage('Tests') {
+            parallel {
+                stage('Unit tests') {
+                    agent {
+                        docker {
+                            image 'node:lts-alpine3.22'
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh '''
+                            test -f build/index.html
+                            npm test
+                        '''
+                    }
                 }
-            }
-            steps {
-                sh '''
-                    test -f build/index.html
-                    npm test
-                '''
-            }
-        }
-        stage('E2E') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                    reuseNode true
+                stage('E2E tests') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh '''
+                            npm install serve
+                            node_modules/.bin/serve -s build &
+                            sleep 1
+                            sleep 10
+                            npx playwright test --reporter=html
+                        '''
+                    }
                 }
-            }
-            steps {
-                sh '''
-                    npm install serve
-                    node_modules/.bin/serve -s build &
-                    sleep 1
-                    sleep 10
-                    npx playwright test --reporter=html
-                '''
             }
         }
     }
