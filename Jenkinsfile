@@ -79,9 +79,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    which bash
                     apk add --no-cache bash
-                    which bash
                     npm install netlify-cli --save-dev
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
