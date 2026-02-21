@@ -6,14 +6,10 @@ pipeline {
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
-    options {
-        skipDefaultCheckout(true)
-    }
-
     stages {
         stage('Clean') {
             steps {
-                deleteDir()
+                cleanWs()
             }
         }
         stage('Build') {
