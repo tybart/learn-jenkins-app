@@ -74,12 +74,13 @@ pipeline {
             agent {
                 docker {
                     image 'node:lts-alpine3.22'
+                    args '-u root'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                    sudo apk add --no-cache bash
+                    apk add --no-cache bash
                     npm install netlify-cli --save-dev
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
