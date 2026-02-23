@@ -72,39 +72,20 @@ pipeline {
         stage('Deploy staging') {
             agent {
                 docker {
-                    image 'node:lts-alpine3.22'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-                    npm install netlify-cli node-jq
-                    node_modules/.bin/netlify --version
-                    echo "Deploying to staging. Site ID: $NETLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --no-build --dir=build --json > stg-deploy-output.json       
-                '''
-                script {
-                    env.STAGING_URL = sh(
-                        script: "node_modules/.bin/node-jq -r '.deploy_url' stg-deploy-output.json",
-                        returnStdout: true
-                    ).trim()
-                }
-            }
-        }
-        stage('Staging E2E tests') {
-            agent {
-                docker {
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     reuseNode true
                 }
             }
-             environment {
-                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
-            }
             steps {
                 sh '''
-                    echo URL to be tested: $CI_ENVIRONMENT_URL
+                    echo Deploying to STG
+                    npm install netlify-cli node-jq
+                    node_modules/.bin/netlify --version
+                    echo "Deploying to staging. Site ID: $NETLIFY_SITE_ID"
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --no-build --dir=build --json > stg-deploy-output.json     
+                    CI_ENVIRONMENT_URL = node_modules/.bin/node-jq -r '.deploy_url' stg-deploy-output.json
+                    echo E2E STG testing URL: $CI_ENVIRONMENT_URL
                     npx playwright test --reporter=html
                 '''
             }
@@ -138,7 +119,7 @@ pipeline {
                 '''
             }
         }
-        stage('Prod E2E tests') {
+        stage('Deploy prod') {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
@@ -150,7 +131,14 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo URL to be tested: $CI_ENVIRONMENT_URL
+                    echo Deploying to ProdPROD...
+                    npm --version
+                    npm install netlify-cli
+                    node_modules/.bin/netlify --version
+                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --no-build --dir=build --prod
+                    echo E2E PROD testing URL: $CI_ENVIRONMENT_URL
                     npx playwright test --reporter=html
                 '''
             }
