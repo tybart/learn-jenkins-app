@@ -76,6 +76,9 @@ pipeline {
                     reuseNode true
                 }
             }
+            environment {
+                CI_ENVIRONMENT_URL = 'PLACE_HOLDER'
+            }
             steps {
                 sh '''
                     echo Deploying to STG
