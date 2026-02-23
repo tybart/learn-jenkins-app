@@ -85,7 +85,12 @@ pipeline {
                     node_modules/.bin/netlify deploy --no-build --dir=build --json > stg-deploy-output.json       
                 '''
                 script {
-                    env.STAGING_URL = sh(script: "node_modules/.bin/node-jq '.deploy_url' stg-deploy-output.json", returnStdout: true)
+                    // env.STAGING_URL = sh(
+                    //     script: "node_modules/.bin/node-jq -r '.deploy_url' stg-deploy-output.json",
+                    //     returnStdout: true
+                    // ).trim()
+                    def json = readJSON file: 'stg-deploy-output.json'
+                    env.STAGING_URL = json.deploy_url
                 }
             }
         }
