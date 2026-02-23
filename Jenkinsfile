@@ -82,12 +82,11 @@ pipeline {
                     node_modules/.bin/netlify --version
                     echo "Deploying to staging. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --no-build --dir=build --json > stg-deploy-output.json
-                    
+                    node_modules/.bin/netlify deploy --no-build --dir=build --json > stg-deploy-output.json       
                 '''
-            }
-            script {
-                env.STAGING_URL = sh(script: "node_modules/.bin/node-jq '.deploy_url' stg-deploy-output.json", retrnStdout: true)
+                script {
+                    env.STAGING_URL = sh(script: "node_modules/.bin/node-jq '.deploy_url' stg-deploy-output.json", returnStdout: true)
+                }
             }
         }
         stage('Staging E2E tests') {
