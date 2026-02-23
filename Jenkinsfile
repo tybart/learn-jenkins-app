@@ -104,6 +104,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    echo URL to be tested: $CI_ENVIRONMENT_URL
                     npx playwright test --reporter=html
                 '''
             }
@@ -149,7 +150,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo $CI_ENVIRONMENT_URL
+                    echo URL to be tested: $CI_ENVIRONMENT_URL
                     npx playwright test --reporter=html
                 '''
             }
