@@ -4,8 +4,6 @@ pipeline {
     environment {
         NETLIFY_SITE_ID = credentials('netlify-site-id')
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
-        AWS_ACCESS_KEY_ID
-        AWS_SECRET_ACCESS_KEY
         REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
