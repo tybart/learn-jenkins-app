@@ -41,7 +41,9 @@ pipeline {
             }
             steps {
                 sh '''
+                    dnf makecache
                     dnf install docker -y
+                    dnf update docker -y
                     docker build -t nginx-with-webapp .
                 '''
             }
