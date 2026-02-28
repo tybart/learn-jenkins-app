@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     ca-certificates \
     docker.io \
+    jq \
     && rm -rf /var/lib/apt/lists/*
 
 # Install AWS CLI v2
