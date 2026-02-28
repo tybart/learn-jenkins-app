@@ -4,6 +4,7 @@ pipeline {
     environment {
         NETLIFY_SITE_ID = credentials('netlify-site-id')
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
+        APP_NAME = "nginx-with-webapp"
         REACT_APP_VERSION = "1.0.$BUILD_ID"
         AWS_DEFAULT_REGION = "eu-central-1"
         AWS_ECS_CLUSTER = "LearnJenkinsApp-Cluster-Prod-20260226"
@@ -42,8 +43,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    
-                    docker build -t nginx-with-webapp .
+                    docker build -t $APP_NAME:$REACT_APP_VERSION .
                 '''
             }
         }
@@ -53,7 +53,6 @@ pipeline {
                 docker {
                     image 'ubuntu-for-aws'
                     reuseNode true
-                    args "-u root"
                 }
             }
             steps {
