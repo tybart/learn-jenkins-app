@@ -47,6 +47,10 @@ pipeline {
                             --cluster LearnJenkinsApp-Cluster-Prod-20260226 \
                             --service LearnJenkinsApp-TaskDefinition-Prod-service-sf5az2tv \
                             --task-definition LearnJenkinsApp-TaskDefinition-Prod:$LATEST_TD_REVISION
+                        aws ecs wait services-stable \
+                            --cluster LearnJenkinsApp-Cluster-Prod-20260226 \
+                            --services LearnJenkinsApp-TaskDefinition-Prod-service-sf5az2tv
+                        echo "Service updated"
                     '''
                 }
             }
