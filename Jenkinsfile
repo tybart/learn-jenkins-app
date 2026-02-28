@@ -41,7 +41,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    amazon-linux-extras install docker
+                    dnf install docker
                     docker build -t nginx-with-webapp .
                 '''
             }
