@@ -30,6 +30,13 @@ pipeline {
                 '''
             }
         }
+
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t nginx-with-webapp .'
+            }
+        }
+/*
         stage('Deploy to AWS') {
             agent {
                 docker {
