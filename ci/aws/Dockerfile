@@ -1,7 +1,7 @@
 FROM ubuntu:resolute
 
 RUN apt-get update && apt-get install -y \
-    docker \
+    docker.io \
     curl \
     unzip \
     ca-certificates \
@@ -10,4 +10,4 @@ RUN apt-get update && apt-get install -y \
     && ./aws/install \
     && rm -rf aws awscliv2.zip
 
-RUN aws --version
+RUN aws --version && docker --version
