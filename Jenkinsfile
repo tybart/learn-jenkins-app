@@ -41,7 +41,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    dnf install docker
+                    dnf install docker -y
                     docker build -t nginx-with-webapp .
                 '''
             }
