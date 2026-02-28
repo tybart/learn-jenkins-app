@@ -32,8 +32,18 @@ pipeline {
         }
 
         stage('Build Docker image') {
+            agent {
+                docker {
+                    image 'amazon/aws-cli'
+                    reuseNode true
+                    args "--entrypoint=''"
+                }
+            }
             steps {
-                sh 'docker build -t nginx-with-webapp .'
+                sh '''
+                    amazon-linux-extras install docker
+                    docker build -t nginx-with-webapp .
+                '''
             }
         }
 /*
