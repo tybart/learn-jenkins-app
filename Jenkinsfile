@@ -10,8 +10,9 @@ pipeline {
         AWS_ECS_SERVICE_PROD = "LearnJenkinsApp-TaskDefinition-Prod-service-sf5az2tv"
         AWS_ECS_TASK_DEFINITION_PROD = "LearnJenkinsApp-TaskDefinition-Prod"
     }
-/*
+
     stages {
+        /*
         stage('Build') {
             agent {
                 docker {
