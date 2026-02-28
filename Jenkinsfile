@@ -41,7 +41,6 @@ pipeline {
             }
             steps {
                 sh '''
-                    cat /var/run/docker.sock
                     dnf install docker -y
                     docker build -t nginx-with-webapp .
                 '''
