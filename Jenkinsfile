@@ -10,7 +10,7 @@ pipeline {
         AWS_ECS_SERVICE_PROD = "LearnJenkinsApp-TaskDefinition-Prod-service-sf5az2tv"
         AWS_ECS_TASK_DEFINITION_PROD = "LearnJenkinsApp-TaskDefinition-Prod"
     }
-
+/*
     stages {
         stage('Build') {
             agent {
@@ -30,20 +30,20 @@ pipeline {
                 '''
             }
         }
-
+*/
         stage('Build Docker image') {
             agent {
                 docker {
-                    image 'amazon/aws-cli'
+                    image 'amazon/aws-cli:latest'
                     reuseNode true
                     args "-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
                 }
             }
             steps {
                 sh '''
-                    dnf makecache
                     dnf install docker -y
-                    dnf update docker -y
+                    which docker
+                    docker version
                     docker build -t nginx-with-webapp .
                 '''
             }
