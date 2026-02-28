@@ -35,9 +35,9 @@ pipeline {
         stage('Build Docker image') {
             agent {
                 docker {
-                    image 'cleanstart/aws-cli'
+                    image 'ubuntu-for-aws'
                     reuseNode true
-                    args "-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
+                    args "-v /var/run/docker.sock:/var/run/docker.sock"
                 }
             }
             steps {
