@@ -4,7 +4,7 @@ pipeline {
     environment {
         NETLIFY_SITE_ID = credentials('netlify-site-id')
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
-        APP_NAME = "nginx-with-webapp"
+        APP_NAME = "learnjenkinsapp-repo"
         REACT_APP_VERSION = "1.0.$BUILD_ID"
         AWS_DEFAULT_REGION = "eu-central-1"
         AWS_ECS_CLUSTER = "LearnJenkinsApp-Cluster-Prod-20260226"
