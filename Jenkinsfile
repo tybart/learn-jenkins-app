@@ -37,14 +37,12 @@ pipeline {
                 docker {
                     image 'dhi.io/awscli:2'
                     reuseNode true
-                    args "-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
+                    args "-v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
                 }
             }
             steps {
                 sh '''
-                    dnf install docker -y
-                    which docker
-                    docker version
+                    
                     docker build -t nginx-with-webapp .
                 '''
             }
